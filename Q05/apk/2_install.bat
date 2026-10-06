@@ -6,8 +6,18 @@ set APK=SpeechAssistant-q05-ru.apk
 if not exist "%APK%" goto noapk
 echo Zhdu golovnoe ustroystvo Q05 po adb...
 adb wait-for-device
+rem --- razblokirovka verifikacii Vecentek (kak pri ustanovke moda Q07) ---
+echo Otklyuchayu verifikaciyu (Vecentek)...
+echo adb36987| adb shell disable-verify 1
+adb shell setprop vecentek.model 1
+adb shell setprop debug.ro.debuggable 1
 echo Stavlyu russkiy golosovoy (obnovlenie sistemnogo prilozheniya, root ne nuzhen)...
 adb install -r -d -g "%APK%"
+if errorlevel 1 (
+  echo.
+  echo Esli oshibka podpisi/verifikacii - snachala vypolnite vashu razblokirovku
+  echo (disable-verify / AppControl), potom zapustite 2_install.bat zanovo.
+)
 rem vklyuchit paket dlya polzovatelya 0 (inache "not found")
 adb shell cmd package install-existing %PKG%
 adb shell "dumpsys package %PKG% | grep -m1 versionName"

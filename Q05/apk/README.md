@@ -5,6 +5,12 @@
 Основано на штатном голосовом Q05 `com.tinnove.wecarspeech` 2.5.3.19_beta, подпись — тот же
 AOSP platform test‑key, что у штатного (обновление системного приложения, root не нужен).
 
+## Перед установкой: разблокировка проверки (Vecentek)
+Голова Changan проверяет системные приложения, поэтому пересобранный APK без разблокировки не встанет
+(так же было с модом Q07). `2_install.bat` сам делает это в начале:
+`echo adb36987| adb shell disable-verify 1` и `setprop vecentek.model 1`. Если у вас свой разблокировщик
+(disable-verify / AppControl) — можно запустить его до `2_install.bat`.
+
 ## Установка
 1. `1_join.bat` — соберёт `SpeechAssistant-q05-ru.apk` из `parts\` (должно получиться **816 677 073 байта**;
    контрольная сумма в `SpeechAssistant-q05-ru.apk.sha256`).
